@@ -1,0 +1,535 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ecommerce API",
+        "version": "1.0.0",
+        "description": "description de ejemplo"
+    },
+    "components": {
+        "securitySchemes": {
+            "AuthToken": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "Pega tu token JWT aquí (sin Bearer)"
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3008",
+            "desciption": "Local"
+        },
+        {
+            "url": "https://ecommerce-react-6x22.vercel.app",
+            "desciption": "Deploy vercel"
+        }
+    ],
+    "paths": {
+        "/api/user/login": {
+            "post": {
+                "summary": "Login de usuario",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@admin.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "adminadmin"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensage": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "accesstoken": {
+                                                    "type": "string",
+                                                    "example": "JWT_ACCESS_TOKEN_AQUI"
+                                                },
+                                                "refreshtoken": {
+                                                    "type": "string",
+                                                    "example": "JWT_REFRESH_TOKEN_AQUI"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/token": {
+            "post": {
+                "summary": "Renovar tokens de acceso",
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Genera un nuevo accessToken y refreshToken utilizando el refresh token enviado en el header.",
+                "parameters": [
+                    {
+                        "name": "x-refresh-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Refresh token válido para generar nuevos tokens"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tokens generados correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensage": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "accesstoken": {
+                                                    "type": "string",
+                                                    "example": "JWT_ACCESS_TOKEN_AQUI"
+                                                },
+                                                "refreshtoken": {
+                                                    "type": "string",
+                                                    "example": "JWT_REFRESH_TOKEN_AQUI"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Refresh token inválido o expirado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensage": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 400
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Refresh token inválido"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "summary": "obtener todos los productos",
+                "tags": [
+                    "Products"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lista de productos obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensage": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "6919fe67f9c826abe6503731"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "algo nuevo"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "desciption": {
+                                                        "type": "string",
+                                                        "example": "asdasdas"
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": "asdasdas"
+                                                    },
+                                                    "stock": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "example": "691481bfdea6bb3f3e477828"
+                                                    },
+                                                    "userId": {
+                                                        "type": "string",
+                                                        "example": "69178e87b4c86503179ee056"
+                                                    },
+                                                    "status": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "__v": {
+                                                        "type": "number",
+                                                        "example": 0
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "summary": "crear un producto nuevo",
+                "tags": [
+                    "Products"
+                ],
+                "security": [
+                    {
+                        "AuthToken": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "producto de ejemplo"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 9.99
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "description de ejemplo"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "example": "https://example.com/sample-product.jpg"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "example": "691481bfdea6bb3f3e477828"
+                                    },
+                                    "stock": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "rating": {
+                                        "type": "object",
+                                        "properties": {
+                                            "count": {
+                                                "type": "number",
+                                                "example": 45
+                                            },
+                                            "rate": {
+                                                "type": "number",
+                                                "example": 20
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Poducto creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensage": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 201
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "6919fe67f9c826abe6503731"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "algo nuevo"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 1
+                                                },
+                                                "desciption": {
+                                                    "type": "string",
+                                                    "example": "asdasdas"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "asdasdas"
+                                                },
+                                                "stock": {
+                                                    "type": "number",
+                                                    "example": 1
+                                                },
+                                                "category": {
+                                                    "type": "string",
+                                                    "example": "691481bfdea6bb3f3e477828"
+                                                },
+                                                "userId": {
+                                                    "type": "string",
+                                                    "example": "69178e87b4c86503179ee056"
+                                                },
+                                                "status": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "__v": {
+                                                    "type": "number",
+                                                    "example": 0
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "summary": "obtener un producto especifico",
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": "true",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "id del producto a obtener"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "producto Obtenido correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "desciption": {
+                                                    "type": "string",
+                                                    "example": "descripcion"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/sample-product.jpg"
+                                                },
+                                                "stock": {
+                                                    "type": "number",
+                                                    "example": 20
+                                                },
+                                                "status": {
+                                                    "type": "bool",
+                                                    "example": true
+                                                },
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "68c351714b85af76f955f78d"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "a"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 100
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error: bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 400
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "El id no es valido"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "error: intenal server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 500
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "actualizar un producto",
+                "tags": [
+                    "Products"
+                ]
+            },
+            "delete": {
+                "summary": "eliminar un producto",
+                "tags": [
+                    "Products"
+                ]
+            }
+        },
+        "/api/products/populado": {
+            "get": {
+                "summary": "obtener todos los productos populados",
+                "tags": [
+                    "Products Extra"
+                ]
+            }
+        }
+    }
+}

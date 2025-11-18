@@ -1,0 +1,79 @@
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:35:55.152Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:35:55.168Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:38:08.440Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:38:08.454Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:38:09.833Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:38:09.839Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:38:31.040Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:38:31.055Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:38:53.480Z"}
+{"level":"error","message":"POST - /api/user/register - La contraseña debe tener al menos 8 caracteres","timestamp":"2025-11-14T18:38:53.491Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:39:03.769Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:39:03.782Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:42:27.265Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:42:27.283Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:42:32.287Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:43:16.804Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:43:16.808Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:43:22.536Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:49:49.953Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T18:49:49.969Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:49:55.707Z"}
+{"level":"error","message":"POST - /api/user/register - birthdate is not defined","timestamp":"2025-11-14T18:49:55.760Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:50:19.454Z"}
+{"level":"error","message":"POST - /api/user/register - birthdate is not defined","timestamp":"2025-11-14T18:50:19.508Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:50:20.907Z"}
+{"level":"error","message":"POST - /api/user/register - birthdate is not defined","timestamp":"2025-11-14T18:50:20.958Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:50:31.439Z"}
+{"level":"error","message":"POST - /api/user/register - User validation failed: birthdate: Cast to date failed for value \"24/11/1998\" (type string) at path \"birthdate\"","timestamp":"2025-11-14T18:50:31.510Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:50:54.967Z"}
+{"level":"error","message":"POST - /api/user/register - User validation failed: birthdate: Cast to date failed for value \"Invalid Date\" (type Date) at path \"birthdate\"","timestamp":"2025-11-14T18:50:55.036Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T18:52:04.616Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:14:13.993Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:14:21.448Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:14:21.459Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:15:21.710Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:15:21.732Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:15:28.032Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:15:28.038Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:15:33.441Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:15:33.448Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:15:43.536Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:15:43.540Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:18:13.954Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:18:13.975Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:18:23.827Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:18:23.835Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:20:33.501Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:20:33.529Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:20:40.334Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:20:40.355Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:24:33.178Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:24:33.187Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T19:25:58.214Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T19:25:58.241Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:10:01.823Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T20:10:01.831Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:10:49.641Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T20:10:49.663Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:10:52.862Z"}
+{"level":"error","message":"POST - /api/user/register - El usuario ya existe","timestamp":"2025-11-14T20:10:52.872Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:11:21.175Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:12:02.078Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:12:26.177Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:13:39.579Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:16:12.489Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:16:32.835Z"}
+{"level":"error","message":"POST - /api/user/login - invalid Email or Password","timestamp":"2025-11-14T20:16:32.898Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:16:34.725Z"}
+{"level":"error","message":"POST - /api/user/login - invalid Email or Password","timestamp":"2025-11-14T20:16:34.782Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:16:38.857Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:16:42.590Z"}
+{"level":"error","message":"POST - /api/user/login - invalid Email or Password","timestamp":"2025-11-14T20:16:42.644Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:16:46.907Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:18:12.317Z"}
+{"level":"info","message":"POST - /api/user/register - /api/user/register","timestamp":"2025-11-14T20:18:15.681Z"}
+{"level":"info","message":"POST - /api/user/login - /api/user/login","timestamp":"2025-11-14T20:18:22.209Z"}
+{"level":"info","message":"POST - /api/user/token - /api/user/token","timestamp":"2025-11-14T20:24:40.905Z"}
+{"level":"error","message":"POST - /api/user/token - jwt must be provided","timestamp":"2025-11-14T20:24:40.908Z"}
+{"level":"info","message":"POST - /api/user/token - /api/user/token","timestamp":"2025-11-14T20:25:36.291Z"}
