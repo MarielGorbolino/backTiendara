@@ -16,7 +16,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 env.config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3008;
 
 const app = express();
 
@@ -75,9 +75,11 @@ mongoose
     console.log(error);
   });
 
+
 app.listen(PORT, () => {
-  console.log(`running in http://localhost:${PORT}`);
+  console.log("Servidor corriendo en el puerto " + PORT);
 });
+
 
 
 
