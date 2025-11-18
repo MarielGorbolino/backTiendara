@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "dotenv -e .env.dev nodemon ./src/index.js",
     "prod": "dotenv -e .env.prod nodemon ./src/index.js",
-    "start": "nodemon ./src/index.js"
+    "start": "node src/index.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
