@@ -110,3 +110,5 @@
 {"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-18T22:00:37.483Z"}
 {"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-18T23:08:26.422Z"}
 {"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-18T23:08:37.921Z"}
+{"level":"error","message":"POST - /api/products - la categoria no existe","timestamp":"2025-11-19T14:55:22.708Z"}
+{"level":"error","message":"POST - /api/products - la categoria no existe","timestamp":"2025-11-19T14:58:14.028Z"}

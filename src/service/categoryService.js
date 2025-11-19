@@ -1,17 +1,16 @@
 import Category from "../model/categoryModel.js";
 export class CategoryService {
   async getOne(id) {
-    const category = await Category.findById(id);
-    return category;
+    return await Category.findOne({ _id :id, status : true });
   }
 
   async getOneByName(name) {
-    const category = await Category.findOne({ name });
+    const category = await Category.findOne({ name , status : true });
     return category;
   }
 
   async getAll() {
-    const categories = await Category.find();
+    const categories = await Category.find({ status : true });
     return categories
   }
   async create(name, description, image) {

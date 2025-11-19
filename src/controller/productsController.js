@@ -67,12 +67,12 @@ export const getAllProductsCategory= async (req, res,next) => {
 
 export const createOneProduct = async (req, res,next) => {
   try {
-    const { title, price, description, image, category, rate, count, stock } = req.body;
+    const { title, price, description, images, category, rate, count, stock } = req.body;
     const productoCreado = await ps.create(
       title,
       price,
       description,
-      image,
+      images,
       category,
       rate,
       count,

@@ -6,7 +6,7 @@ import { ApiError } from "../utils/errors.js";
 const cs = new CategoryService();
 export class productsService {
   async getOne(id) {
-    return await Product.findById({_id : id }).populate("category","name");
+    return await Product.findOne({_id : id, status : true }).populate("category","name");
   }
 
   async getAll() {
@@ -14,30 +14,29 @@ export class productsService {
   }
 
   async getAllPopulado() {
-    const productos = await Product.find().populate("category","name");
+    const productos = await Product.find({ status: true }).populate("category","name");
     return productos;
   }
 
   async getAllPaginado(page,limit,offset){
-    const productos = await Product.find().populate("category","name").skip(offset).limit(limit);
+    const productos = await Product.find({ status: true }).populate("category","name").skip(offset).limit(limit);
     return productos;
   }
 
   async getAllFiltrado(name){
-    return await Product.find({name: name});
+    return await Product.find({name: name, status: true });
   }
 
   async getAllProductsCategory(category){
-    const categorydb = await Category.findOne({name: category})
-    let productos = await Product.find({category: categorydb?._id}).populate("category","name");
+    const categorydb = await Category.findOne({name: category, status: true })
+    let productos = await Product.find({category: categorydb?._id, status: true }).populate("category","name");
     if(!productos || productos.length === 0){
-      productos = await Product.find().populate("category","name");
+      productos = await Product.find({ status: true }).populate("category","name");
     }
     return productos;
   }
 
-  async create(title, price, desciption, image, category, rate, count, stock, userId) {
-    console.log("categoryId en service:", category);  
+  async create(title, price, desciption, images, category, rate, count, stock, userId) {
     const objectCaregory = await cs.getOne(category);
     if(!objectCaregory){
       throw new ApiError("la categoria no existe", 404);
@@ -46,7 +45,7 @@ export class productsService {
       title,
       price,
       desciption,
-      image,
+      images,
       stock,
       category: objectCaregory?._id,
       rating: {
@@ -78,15 +77,9 @@ export class productsService {
     return productoActualizado;
   }
   async deleteLogicoProduct(id) {
-    const productoEliminado = await Product.findByIdAndUpdate(id, {
+    return await Product.findByIdAndUpdate(id, {
       status: false,
     });
-    return productoEliminado;
   }
-  /*
-  async deleteFisicoProduct(id) {
-    const productoEliminado = await Product.deleteOne({id:id})
 
-    return productoEliminado
-  }*/
 }

@@ -19,14 +19,9 @@ export const postProducto = [
       "error en la descripción: debe ser texto y tener entre 5 y 500 caracteres"
     ),
 
- body("image")
-    .isString()
-    // .matches(
-    //   /^(?:data:image\/(?:png|jpg|jpeg|webp);base64,)?[A-Za-z0-9+/]+={0,2}$/
-    // )
-    .withMessage(
-      "error en la imagen: debe ser una cadena Base64 válida (con o sin prefijo data:image/...)"
-    ),
+  body("images")
+    .isArray({ min: 1 })
+    .withMessage("Debe enviar al menos una imagen"),
 
   body("stock")
     .isNumeric()
