@@ -38,11 +38,11 @@ export class CartService {
     if (!detail) throw new Error("producto no encontrado en el carrito");
 
     // Recuperar stock
-    // const product = await Product.findById(idProducto);
-    // if (product) {
-    //   product.stock += detail.quantity;
-    //   await product.save();
-    // }
+    const product = await Product.findById(idProducto);
+    if (product) {
+      product.stock += detail.quantity;
+      await product.save();
+    }
 
     // Eliminar el detalle
     await Detail.findByIdAndDelete(detail._id);
@@ -68,22 +68,30 @@ export class CartService {
     const product = await Product.findById({ _id: productId });
     if (!product) throw new ApiError("producto no encontrado", 404);
 
+    if (product.stock <= 0)
+      throw new ApiError("producto sin stock disponible", 409);
+
     let cart = await Cart.findOne({ userId: idUsuario });
     if (!cart) {
       cart = await Cart.create({ userId: idUsuario });
     }
 
+    // Buscar si ya existe un detail para ese producto
     const detail = await Detail.findOne({
       product: productId,
       _id: { $in: cart.detalle },
     });
 
+    // Siempre SUMA 1
     const newQuantity = detail ? detail.quantity + 1 : 1;
-    if (product.stock < newQuantity)
-      throw new ApiError("producto sin stock disponible", 409);
+
+    // Restar stock por UNIDAD agregada
+    product.stock -= 1;
+    await ps.update(product.id, product);
 
     if (!detail) {
-        const newDetail = await Detail.create({
+      // Crear un detail nuevo
+      const newDetail = await Detail.create({
         product: productId,
         quantity: newQuantity,
         price: product.price,
@@ -92,6 +100,7 @@ export class CartService {
       cart.detalle.push(newDetail._id);
       await cart.save();
     } else {
+      // Actualizar detail existente
       detail.quantity = newQuantity;
       detail.price = product.price;
       await detail.save();
@@ -101,9 +110,11 @@ export class CartService {
   }
 
   async removeProduct(idUsuario, idProducto) {
+    // Buscar carrito
     const cart = await Cart.findOne({ userId: idUsuario });
     if (!cart) throw new Error("carrito no encontrado");
 
+    // Buscar detalle que contenga ese producto
     const detail = await Detail.findOne({
       product: idProducto,
       _id: { $in: cart.detalle },
@@ -113,10 +124,15 @@ export class CartService {
       throw new Error("producto no encontrado en el carrito");
     }
 
+    // Buscar el producto real para devolver stock
     const product = await Product.findById(idProducto);
     if (!product) throw new Error("producto no encontrado");
 
+    // 👉 Devolver 1 unidad al stock
+    product.stock += 1;
+    await product.save();
 
+    // 👉 Si la cantidad queda en 0, eliminar el detalle y quitarlo del carrito
     if (detail.quantity <= 1) {
       await Detail.findByIdAndDelete(detail._id);
 
@@ -125,10 +141,12 @@ export class CartService {
       );
       await cart.save();
     } else {
+      // 👉 Si queda más de 1, solo restar uno
       detail.quantity -= 1;
       await detail.save();
     }
 
+    // 👉 Si el carrito quedó vacío, eliminarlo
     if (cart.detalle.length === 0) {
       await Cart.findByIdAndDelete(cart._id);
       return { message: "carrito eliminado porque quedó vacío" };

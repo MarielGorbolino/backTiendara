@@ -88,19 +88,23 @@ export const createOneProduct = async (req, res,next) => {
 export const updateOneProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, price, desciption, image, category, rate, count, stock } =
-      req.body;
-
     const productoActualizado = await ps.update(
       id,
-      title,
-      price,
-      desciption,
-      image,
-      category,
-      rate,
-      count,
-      stock
+      req.body
+    );
+
+    success(res, productoActualizado)
+  } catch (error) {
+   next(error)
+  }
+};
+
+export const updateParcial = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const productoActualizado = await ps.updateParcial(
+      id,
+      req.body
     );
 
     success(res, productoActualizado)

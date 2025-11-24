@@ -5,8 +5,8 @@ import validationMiddleware from "../middleware/validationMiddleware.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 const categoryRouter = Router()
 
-categoryRouter.get("/:id",getOneCategory)
 categoryRouter.get("/:name",getOneCategoryByName)
+// categoryRouter.get("/:id",getOneCategory)
 categoryRouter.get("/",getAllCategory)
 categoryRouter.post("/", authMiddleware,postCategory,validationMiddleware,createCategory)
 categoryRouter.put("/:id",updateCategory)
