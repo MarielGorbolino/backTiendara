@@ -43,13 +43,25 @@ export const getAllProductsPaginado = async (req, res,next) => {
   }
 };
 
-export const getAllProductsFiltrado = async (req, res,next) => {
+export const getAllProductsFiltradoandPaginado = async (req, res, next) => {
   try {
-    const {name, pmin,pmax,sortby,order} = req.query
-    const productos = await ps.getAllFiltrado(name,pmin,pmax,sortby,order);
-    success(res, productos)
+    const { search = "", sort = "" } = req.query;
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const offset = (page - 1) * limit;
+
+    const productos = await ps.getAllProductsFiltradoandPaginado(
+      search,
+      sort,
+      offset,
+      limit
+    );
+
+    success(res, productos);
+
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

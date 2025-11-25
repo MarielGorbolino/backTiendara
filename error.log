@@ -234,3 +234,35 @@
 {"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-21T01:17:12.341Z"}
 {"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-21T01:18:30.835Z"}
 {"level":"error","message":"GET - /api/products - Socket 'secureConnect' timed out after 30002ms (connectTimeoutMS: 30000)","timestamp":"2025-11-24T18:52:09.805Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T19:16:35.364Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T19:23:19.915Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T19:24:17.351Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T19:33:30.041Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T19:36:44.887Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T19:48:45.252Z"}
+{"level":"error","message":"GET - /api/products/691f5c315230bb0234c2fca0 - connection <monitor> to 159.41.35.92:27017 timed out","timestamp":"2025-11-24T20:01:14.623Z"}
+{"level":"error","message":"GET - /api/cart - connection <monitor> to 159.41.35.92:27017 timed out","timestamp":"2025-11-24T20:01:14.627Z"}
+{"level":"error","message":"POST - /api/user/login - connection <monitor> to 159.41.35.92:27017 timed out","timestamp":"2025-11-24T20:01:14.628Z"}
+{"level":"error","message":"GET - /api/products - getaddrinfo EAI_AGAIN ac-zymi4sy-shard-00-00.wz43y7w.mongodb.net","timestamp":"2025-11-24T20:02:45.961Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-24T23:25:38.665Z"}
+{"level":"error","message":"GET - /api/products/filter?search=reme&sort=price-asc&page=1&limit=6 - Can't use status with String.","timestamp":"2025-11-25T00:14:46.021Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:18:22.899Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-25T00:39:02.559Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:49:52.536Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:49:55.603Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:51:37.494Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:52:01.785Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:52:12.300Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:53:07.108Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:53:24.199Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:53:39.531Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:54:04.956Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:54:09.563Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:54:25.026Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T00:56:16.037Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T12:09:08.181Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-25T12:11:57.267Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-25T12:22:39.623Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-25T12:23:50.473Z"}
+{"level":"error","message":"POST - /create-payment-intent - Invalid API Key provided: sk_test_************cdef","timestamp":"2025-11-25T12:24:52.732Z"}
+{"level":"error","message":"POST - /api/cart - producto sin stock disponible","timestamp":"2025-11-25T14:24:44.929Z"}

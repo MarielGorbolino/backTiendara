@@ -138,13 +138,26 @@ export class CartService {
   }
 
   async ClearCart(idUsuario) {
-    const cart = await Cart.findOne({ userId: idUsuario });
-    if (!cart) throw new Error("carrito no encontrado");
+  const cart = await Cart.findOne({ userId: idUsuario }).populate('detalle');
+  if (!cart) throw new Error("carrito no encontrado");
 
-    await Detail.deleteMany({ _id: { $in: cart.detalle } });
-    cart.detalle = [];
-    await cart.save();
+  if (cart.detalle && cart.detalle.length > 0) {
 
-    return await this.getOne(idUsuario);
+    for (const detail of cart.detalle) {
+      const product = await Product.findById(detail.product);
+
+      if (product) {
+        product.stock -= detail.quantity;
+        await product.save();
+      }
+    }
   }
+
+  await Detail.deleteMany({ _id: { $in: cart.detalle.map(d => d._id) } });
+
+  cart.status = "Pagado";
+  await cart.save();
+
+  return await this.getOne(idUsuario);
+}
 }
