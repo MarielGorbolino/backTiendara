@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3008;
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://tiendara.netlify.app"],
+  origin: ["http://localhost:5173", "https://tiendara.netlify.app", "https://front-tiendara.vercel.app"],
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization", "x-refresh-token"],
 };
