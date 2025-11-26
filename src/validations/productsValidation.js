@@ -30,16 +30,6 @@ export const postProducto = [
   body("category")
     .notEmpty()
     .withMessage("category requerida"),
-
-  body("rating.rate")
-    .optional()
-    .isNumeric()
-    .withMessage("rating.rate debe ser numérico"),
-
-  body("rating.count")
-    .optional()
-    .isNumeric()
-    .withMessage("rating.count debe ser numérico"),
 ];
 
 export const defaultValidation = [];

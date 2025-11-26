@@ -6,13 +6,10 @@ import cartRouter from "./router/cartRouter.js";
 import env from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import Stripe from "stripe";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json" with {type:"json"}
 import { logger } from "./config/Winston.js";
 import { errorHandler } from "./middleware/errorHandler.js";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 env.config();
 
@@ -46,24 +43,6 @@ app.use("/api/cart", cartRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 
-app.post("/create-payment-intent", async (req, res) => {
-  const { amount, currency = "usd", userId } = req.body;
-  const intentoPago = await stripe.paymentIntents.create({
-    amount,
-    currency,
-    customer: userId,
-    automatic_payment_methods: { enabled: true },
-  });
-  res.json({clientSecret:intentoPago.client_secret})
-});
-
-app.use((req, res) => {
-  res.status(404).json({
-    mensage: "Route not found",
-    code: 404,
-    data: {},
-  });
-});
 app.use(errorHandler)
 
 mongoose

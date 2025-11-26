@@ -2,22 +2,14 @@ import Cart from "../model/cartModel.js";
 import Detail from "../model/detailModel.js";
 import Product from "../model/productsModel.js";
 import { ApiError } from "../utils/errors.js";
-import { productsService } from "./productsService.js";
-const ps = new productsService();
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export class CartService {
-  constructor() {
-  }
+  constructor() {}
   async getOne(idUsuario) {
-    const cart = await Cart.findOne({ userId: idUsuario }).populate({
-      path: "detalle",
-      populate: "product",
-    });
-    return cart;
-  }
-
-  async getAllCarts() {
-    const cart = await Cart.find().populate({
+    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate({
       path: "detalle",
       populate: "product",
     });
@@ -25,11 +17,9 @@ export class CartService {
   }
 
   async deleteProductCart(idUsuario, idProducto) {
-    // Buscar carrito
-    const cart = await Cart.findOne({ userId: idUsuario });
+    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" });
     if (!cart) throw new Error("carrito no encontrado");
 
-    // Buscar el detalle del producto
     const detail = await Detail.findOne({
       product: idProducto,
       _id: { $in: cart.detalle },
@@ -37,30 +27,18 @@ export class CartService {
 
     if (!detail) throw new Error("producto no encontrado en el carrito");
 
-    // Recuperar stock
-    // const product = await Product.findById(idProducto);
-    // if (product) {
-    //   product.stock += detail.quantity;
-    //   await product.save();
-    // }
-
-    // Eliminar el detalle
     await Detail.findByIdAndDelete(detail._id);
 
-    // Removerlo del array del carrito
     cart.detalle = cart.detalle.filter(
       (id) => id.toString() !== detail._id.toString()
     );
 
-    // Si el carrito no tiene más productos → eliminar carrito
     if (cart.detalle.length === 0) {
       await Cart.findByIdAndDelete(cart._id);
       return { message: "Producto eliminado y carrito vacío eliminado" };
     }
 
-    // Guardar cambios si el carrito aún tiene productos
     await cart.save();
-
     return await this.getOne(idUsuario);
   }
 
@@ -68,7 +46,7 @@ export class CartService {
     const product = await Product.findById({ _id: productId });
     if (!product) throw new ApiError("producto no encontrado", 404);
 
-    let cart = await Cart.findOne({ userId: idUsuario });
+    let cart = await Cart.findOne({ userId: idUsuario,  status: "Pendiente" });
     if (!cart) {
       cart = await Cart.create({ userId: idUsuario });
     }
@@ -83,7 +61,7 @@ export class CartService {
       throw new ApiError("producto sin stock disponible", 409);
 
     if (!detail) {
-        const newDetail = await Detail.create({
+      const newDetail = await Detail.create({
         product: productId,
         quantity: newQuantity,
         price: product.price,
@@ -101,7 +79,7 @@ export class CartService {
   }
 
   async removeProduct(idUsuario, idProducto) {
-    const cart = await Cart.findOne({ userId: idUsuario });
+    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" });
     if (!cart) throw new Error("carrito no encontrado");
 
     const detail = await Detail.findOne({
@@ -115,7 +93,6 @@ export class CartService {
 
     const product = await Product.findById(idProducto);
     if (!product) throw new Error("producto no encontrado");
-
 
     if (detail.quantity <= 1) {
       await Detail.findByIdAndDelete(detail._id);
@@ -137,27 +114,73 @@ export class CartService {
     return await this.getOne(idUsuario);
   }
 
-  async ClearCart(idUsuario) {
-  const cart = await Cart.findOne({ userId: idUsuario }).populate('detalle');
-  if (!cart) throw new Error("carrito no encontrado");
+  async clearCart(idUsuario) {
+    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
+    if (!cart) throw new Error("carrito no encontrado");
 
-  if (cart.detalle && cart.detalle.length > 0) {
+    await Detail.deleteMany({ _id: { $in: cart.detalle.map((d) => d._id) } });
 
-    for (const detail of cart.detalle) {
-      const product = await Product.findById(detail.product);
+    cart.detalle = [];
+    await cart.save();
 
-      if (product) {
-        product.stock -= detail.quantity;
-        await product.save();
-      }
-    }
+    return await this.getOne(idUsuario);
   }
 
-  await Detail.deleteMany({ _id: { $in: cart.detalle.map(d => d._id) } });
 
-  cart.status = "Pagado";
-  await cart.save();
+  async payCart(idUsuario) {
+    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
+    if (!cart) throw new Error("carrito no encontrado");
+console.log(cart);
 
-  return await this.getOne(idUsuario);
-}
+    if (cart.detalle && cart.detalle.length > 0) {
+      for (const detail of cart.detalle) {
+        const product = await Product.findById(detail.product);
+
+        if (product) {
+          product.stock -= detail.quantity;
+          await product.save();
+        }
+      }
+    }
+    cart.status = "Pagado";
+    await cart.save();
+console.log(cart);
+
+    return await this.getOne(idUsuario);
+  }
+
+
+    async clearCart(idUsuario) {
+    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
+    if (!cart) throw new Error("carrito no encontrado");
+
+    if (cart.detalle && cart.detalle.length > 0) {
+      for (const detail of cart.detalle) {
+        const product = await Product.findById(detail.product);
+
+        if (product) {
+          product.stock -= detail.quantity;
+          await product.save();
+        }
+      }
+    }
+
+    await Detail.deleteMany({ _id: { $in: cart.detalle.map((d) => d._id) } });
+
+    cart.status = "Pagado";
+    await cart.save();
+
+    return await this.getOne(idUsuario);
+  }
+
+
+    async paymentIntents(amount, currency, userId) {
+      const intentoPago = await stripe.paymentIntents.create({
+        amount,
+        currency,
+        customer: userId,
+        automatic_payment_methods: { enabled: true },
+      });
+      return intentoPago.client_secret;
+  }
 }

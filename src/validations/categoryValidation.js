@@ -9,7 +9,6 @@ export const postCategory = [
     ),
 
   body("description")
-    .optional()
     .isString()
     .isLength({ max: 300 })
     .withMessage(
@@ -17,7 +16,6 @@ export const postCategory = [
     ),
 
   body("image")
-    .optional()
     .isString()
     .matches(
       /^(?:data:image\/(?:png|jpg|jpeg|webp);base64,)?[A-Za-z0-9+/]+={0,2}$/

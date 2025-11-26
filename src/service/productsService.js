@@ -18,21 +18,6 @@ export class productsService {
     return await Product.find({ status: true }).populate("category", "name");
   }
 
-  async getAllPopulado() {
-    const productos = await Product.find({ status: true }).populate(
-      "category",
-      "name"
-    );
-    return productos;
-  }
-
-  async getAllPaginado(page, limit, offset) {
-    return await Product.find({ status: true })
-      .populate("category", "name")
-      .skip(offset)
-      .limit(limit);
-  }
-
   async getAllProductsFiltradoandPaginado(search, sort, offset, limit) {
     const filtro = search ? { title: { $regex: search, $options: "i" }, status: true } : { status: true };
 
@@ -58,10 +43,6 @@ export class productsService {
     };
   }
 
-  async getAllProductsByName(name) {
-    return await Product.find({ name: name, status: true });
-  }
-
   async getAllProductsCategory(category) {
     const categorydb = await Category.findOne({ name: category, status: true });
     return await Product.find({
@@ -73,7 +54,7 @@ export class productsService {
   async create(
     title,
     price,
-    desciption,
+    description,
     images,
     category,
     rate,
@@ -88,34 +69,26 @@ export class productsService {
     const producto = {
       title,
       price,
-      desciption,
+      description,
       images,
       stock,
       category: objectCaregory?._id,
-      rating: {
-        rate,
-        count,
-      },
       userId,
     };
     return await Product.create(producto);
   }
 
   async update(id, productoData) {
-    const { title, price, desciption, images, category, rate, count, stock } =
+    const { title, price, description, images, category, rate, count, stock } =
       productoData;
 
     const producto = {
       title,
       price,
-      desciption,
+      description,
       images,
       stock,
       category,
-      rating: {
-        rate,
-        count,
-      },
     };
 
     const productoActualizado = await Product.findByIdAndUpdate(id, {
@@ -129,16 +102,16 @@ export class productsService {
     if (!productoBase) {
       throw new ApiError("El producto no existe", 404);
     }
-    const { title, price, desciption, images, category, rate, count, stock } =
+    const { title, price, description, images, category, rate, count, stock } =
       productoData;
     const changedPrice = productoBase.price != price && price;
     const producto = {
       title: productoBase.title != title && title ? title : productoBase.title,
       price: changedPrice ? price : productoBase.price,
-      desciption:
-        productoBase.desciption != desciption && desciption
-          ? desciption
-          : productoBase.desciption,
+      description:
+        productoBase.description != description && description
+          ? description
+          : productoBase.description,
       images:
         productoBase.images != images && images ? images : productoBase.images,
       stock: productoBase.stock != stock && stock ? stock : productoBase.stock,
@@ -154,17 +127,11 @@ export class productsService {
       }
     );
     if (productoActualizado && changedPrice) {
-      console.log(
-        "Actualizando detalles con nuevo precio",
-        productoActualizado,
-        changedPrice
-      );
+
       let detail = await Detail.findOne({ product: id });
-      console.log("findOne detalles con nuevo precio", detail);
       if (detail) {
         detail.price = price;
         await detail.save();
-        console.log("save detalles con nuevo precio");
       }
     }
     return productoActualizado;

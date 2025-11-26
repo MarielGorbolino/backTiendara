@@ -7,10 +7,6 @@ export const postCart = [
     .isIn(["Pendiente", "Pagado"])
     .withMessage("status debe ser 'Pendiente' o 'Pagado'"),
 
-  // body("detalle")
-  //   .isArray({ min: 1 })
-  //   .withMessage("detalle debe ser un array con al menos un item"),
-
   body("detalle.product")
     .notEmpty()
     .withMessage("product es obligatorio")

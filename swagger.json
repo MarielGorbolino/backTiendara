@@ -18,11 +18,11 @@
     "servers": [
         {
             "url": "http://localhost:3008",
-            "desciption": "Local"
+            "description": "Local"
         },
         {
             "url": "https://ecommerce-react-6x22.vercel.app",
-            "desciption": "Deploy vercel"
+            "description": "Deploy vercel"
         }
     ],
     "paths": {
@@ -214,7 +214,7 @@
                                                         "type": "number",
                                                         "example": 1
                                                     },
-                                                    "desciption": {
+                                                    "description": {
                                                         "type": "string",
                                                         "example": "asdasdas"
                                                     },
@@ -295,19 +295,6 @@
                                     "stock": {
                                         "type": "number",
                                         "example": 10
-                                    },
-                                    "rating": {
-                                        "type": "object",
-                                        "properties": {
-                                            "count": {
-                                                "type": "number",
-                                                "example": 45
-                                            },
-                                            "rate": {
-                                                "type": "number",
-                                                "example": 20
-                                            }
-                                        }
                                     }
                                 }
                             }
@@ -345,7 +332,7 @@
                                                     "type": "number",
                                                     "example": 1
                                                 },
-                                                "desciption": {
+                                                "description": {
                                                     "type": "string",
                                                     "example": "asdasdas"
                                                 },
@@ -422,7 +409,7 @@
                                         "data": {
                                             "type": "object",
                                             "properties": {
-                                                "desciption": {
+                                                "description": {
                                                     "type": "string",
                                                     "example": "descripcion"
                                                 },
