@@ -130,7 +130,6 @@ export class CartService {
   async payCart(idUsuario) {
     const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
     if (!cart) throw new Error("carrito no encontrado");
-console.log(cart);
 
     if (cart.detalle && cart.detalle.length > 0) {
       for (const detail of cart.detalle) {
@@ -144,7 +143,6 @@ console.log(cart);
     }
     cart.status = "Pagado";
     await cart.save();
-console.log(cart);
 
     return await this.getOne(idUsuario);
   }

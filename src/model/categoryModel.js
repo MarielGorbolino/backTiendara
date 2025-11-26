@@ -3,8 +3,8 @@ const { Schema, model } = mongoose;
 
 const categorySchema = new Schema({
   name: { type: String, required: true, unique: true },
-  description: { type: String, default: "" },
-  image: { type: String, default: "" },
+  description: { type: String, required: true },
+  image: { type: String, required: true },
   status: { type: Boolean, default: true },
 });
 

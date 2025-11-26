@@ -81,7 +81,6 @@ export const paymentIntents = async (req, res, next) => {
     res.json({clientSecret})
   } catch (error) {
     next(error)
-
   }
 };
 

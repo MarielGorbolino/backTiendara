@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/user", userRouter);
-app.use("/api/products", productsRouter); //ABMC
+app.use("/api/products", productsRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/cart", cartRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
@@ -58,8 +58,3 @@ mongoose
 app.listen(PORT, () => {
   console.log("Servidor corriendo en el puerto " + PORT);
 });
-
-
-
-
-//MONGOURL=mongodb://localhost:27017/ecommerce

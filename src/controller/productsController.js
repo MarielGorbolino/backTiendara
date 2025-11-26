@@ -59,15 +59,13 @@ export const getAllProductsCategory= async (req, res,next) => {
 
 export const createOneProduct = async (req, res,next) => {
   try {
-    const { title, price, description, images, category, rate, count, stock } = req.body;
+    const { title, price, description, images, category, stock } = req.body;
     const productoCreado = await ps.create(
       title,
       price,
       description,
       images,
       category,
-      rate,
-      count,
       stock,
       req.user.id
     );
@@ -108,8 +106,8 @@ export const updateParcial = async (req, res, next) => {
 export const deleteProduct = async (req, res,next) => {
   try {
     const { id } = req.params;
-    const productoEliminado = await ps.deleteLogicoProduct(id);
-    success(res, productoEliminado)
+    await ps.deleteLogicoProduct(id);
+    success(res, {}, 204)
   } catch (error) {
     next(error)
   }
