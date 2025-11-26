@@ -1,4 +1,4 @@
-export const authRoles = (roles = []) =>{ //admin,user,superadmin
+export const authRoles = (roles = []) =>{
     return (req,res,next) =>{
         if(!req.user){
             return res.status(401).json({message: "usuario no logueado"})

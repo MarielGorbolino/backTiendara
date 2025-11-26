@@ -23,26 +23,6 @@ export const getAllProducts = async (req, res,next) => {
   }
 };
 
-export const getAllProductsPopulado = async (req, res,next) => {
-  try {
-    const productos = await ps.getAllPopulado();
-    success(res, productos)
-  } catch (error) {
-    next(error)
-  }
-};
-
-export const getAllProductsPaginado = async (req, res,next) => {
-  try {
-    const {page = 1, limit = 10} = req.query
-    const offset = (page - 1) * limit
-    const productos = await ps.getAllPaginado(page,limit,offset);
-    success(res, productos)
-  } catch (error) {
-    next(error)
-  }
-};
-
 export const getAllProductsFiltradoandPaginado = async (req, res, next) => {
   try {
     const { search = "", sort = "" } = req.query;

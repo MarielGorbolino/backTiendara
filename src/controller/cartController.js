@@ -14,20 +14,6 @@ export const getOneCart = async (req, res, next) => {
   }
 };
 
-export const getAllCarts = async (req, res, next) => {
-  try {
-    const carts = await cartService.getAllCarts();
-    success(res, carts)
-    res.status(200).json({
-      mensage: "Success",
-      code: 200,
-      data: carts,
-    });
-  } catch (error) {
-    next(error)
-
-  }
-};
 
 export const addOneToCart = async (req, res, next) => {
   try {
@@ -36,7 +22,6 @@ export const addOneToCart = async (req, res, next) => {
     const cart = await cartService.addOneToCart(user.id, idProducto);
     success(res, cart)
   } catch (error) {
-    console.log(error)
     next(error)
 
   }
@@ -66,14 +51,37 @@ export const removeProduct = async (req, res, next) => {
   }
 };
 
-
-export const ClearCart = async (req, res, next) => {
+export const payCart = async (req, res, next) => {
   try {
     const user = req.user;
-    const cart = await cartService.ClearCart(user.id);
+    const cart = await cartService.payCart(user.id);
     success(res, cart)
   } catch (error) {
     next(error)
 
   }
 };
+
+
+export const clearCart = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const cart = await cartService.clearCart(user.id);
+    success(res, cart)
+  } catch (error) {
+    next(error)
+
+  }
+};
+
+export const paymentIntents = async (req, res, next) => {
+  try {
+    const { amount, currency = "usd", userId } = req.body;
+    const clientSecret = await cartService.paymentIntents(amount, currency, userId);
+    res.json({clientSecret})
+  } catch (error) {
+    next(error)
+
+  }
+};
+

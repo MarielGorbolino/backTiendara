@@ -7,7 +7,6 @@ export const authMiddleware = (req,res,next) =>{
     }
     jwt.verify(accesstoken,process.env.JWT_ACCESS,(err,user)=>{
         if(err){
-            console.log(err)
             return res.status(403).json({message:"token no valido o expirado"})
         }
         req.user= user;

@@ -1,28 +1,26 @@
 import Category from "../model/categoryModel.js";
 export class CategoryService {
   async getOne(id) {
-    return await Category.findOne({ _id :id, status : true });
+    return await Category.findOne({ _id: id, status: true });
   }
 
   async getOneByName(name) {
-    const category = await Category.findOne({ name , status : true });
-    return category;
+    return await Category.findOne({ name, status: true });
   }
 
   async getAll() {
-    const categories = await Category.find({ status : true });
-    return categories
+    return await Category.find({ status: true });
   }
+
   async create(name, description, image) {
-    const category = await Category.create({name,description,image})
-    return category
+    return await Category.create({ name, description, image });
   }
+
   async update(id, name, description, image) {
-    const category = await Category.findByIdAndUpdate(id, { name, description, image });
-    return category;
+    return await Category.findByIdAndUpdate(id, { name, description, image });
   }
+
   async delete(id) {
-    const category = await Category.findByIdAndUpdate(id, { status: false });
-    return category;
+    return await Category.findByIdAndUpdate(id, { status: false });
   }
 }
