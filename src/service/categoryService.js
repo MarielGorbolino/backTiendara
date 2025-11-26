@@ -8,8 +8,19 @@ export class CategoryService {
     return await Category.findOne({ name, status: true });
   }
 
-  async getAll() {
-    return await Category.find({ status: true });
+  async getAll(offset, limit) {
+    const total = await Category.countDocuments({ status: true });
+    const data = await Category.find({ status: true })
+      .skip(offset)
+      .limit(limit);
+
+    return {
+      data,
+      total,
+      totalPages: Math.ceil(total / limit),
+      page: offset / limit + 1,
+      limit,
+    };
   }
 
   async create(name, description, image) {

@@ -57,8 +57,6 @@ export class productsService {
     description,
     images,
     category,
-    rate,
-    count,
     stock,
     userId
   ) {
@@ -79,7 +77,7 @@ export class productsService {
   }
 
   async update(id, productoData) {
-    const { title, price, description, images, category, rate, count, stock } =
+    const { title, price, description, images, category, stock } =
       productoData;
 
     const producto = {
@@ -102,7 +100,7 @@ export class productsService {
     if (!productoBase) {
       throw new ApiError("El producto no existe", 404);
     }
-    const { title, price, description, images, category, rate, count, stock } =
+    const { title, price, description, images, category, stock } =
       productoData;
     const changedPrice = productoBase.price != price && price;
     const producto = {
@@ -138,8 +136,11 @@ export class productsService {
   }
 
   async deleteLogicoProduct(id) {
-    return await Product.findByIdAndUpdate(id, {
-      status: false,
+      const product = await Product.findOneAndUpdate({_id:id, status: true}, {
+        status: false,
     });
+    if(!product)
+      throw new ApiError("El producto no existe", 404); 
+
   }
 }

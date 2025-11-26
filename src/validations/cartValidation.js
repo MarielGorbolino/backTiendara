@@ -17,5 +17,8 @@ export const postCart = [
     .isNumeric()
     .withMessage("quantity debe ser numérico")
     .custom((value) => value > 0)
-    .withMessage("quantity debe ser mayor a 0")
+    .withMessage("quantity debe ser mayor a 0"),
+];
+export const oneProductCart = [
+  body("idProducto").isMongoId().withMessage("El producto no es un ID válido"),
 ];

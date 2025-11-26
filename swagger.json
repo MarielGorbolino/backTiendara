@@ -1,522 +1,1345 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Ecommerce API",
-        "version": "1.0.0",
-        "description": "description de ejemplo"
-    },
-    "components": {
-        "securitySchemes": {
-            "AuthToken": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "Authorization",
-                "description": "Pega tu token JWT aquí (sin Bearer)"
-            }
-        }
-    },
-    "servers": [
-        {
-            "url": "http://localhost:3008",
-            "description": "Local"
-        },
-        {
-            "url": "https://ecommerce-react-6x22.vercel.app",
-            "description": "Deploy vercel"
-        }
-    ],
-    "paths": {
-        "/api/user/login": {
-            "post": {
-                "summary": "Login de usuario",
-                "tags": [
-                    "Auth"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "example": "admin@admin.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "adminadmin"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Login exitoso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensage": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 200
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "accesstoken": {
-                                                    "type": "string",
-                                                    "example": "JWT_ACCESS_TOKEN_AQUI"
-                                                },
-                                                "refreshtoken": {
-                                                    "type": "string",
-                                                    "example": "JWT_REFRESH_TOKEN_AQUI"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user/token": {
-            "post": {
-                "summary": "Renovar tokens de acceso",
-                "tags": [
-                    "Auth"
-                ],
-                "description": "Genera un nuevo accessToken y refreshToken utilizando el refresh token enviado en el header.",
-                "parameters": [
-                    {
-                        "name": "x-refresh-token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "Refresh token válido para generar nuevos tokens"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Tokens generados correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensage": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 200
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "accesstoken": {
-                                                    "type": "string",
-                                                    "example": "JWT_ACCESS_TOKEN_AQUI"
-                                                },
-                                                "refreshtoken": {
-                                                    "type": "string",
-                                                    "example": "JWT_REFRESH_TOKEN_AQUI"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Refresh token inválido o expirado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensage": {
-                                            "type": "string",
-                                            "example": "Error"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 400
-                                        },
-                                        "data": {
-                                            "type": "string",
-                                            "example": "Refresh token inválido"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error interno del servidor"
-                    }
-                }
-            }
-        },
-        "/api/products": {
-            "get": {
-                "summary": "obtener todos los productos",
-                "tags": [
-                    "Products"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "lista de productos obtenida correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensage": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 200
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "_id": {
-                                                        "type": "string",
-                                                        "example": "6919fe67f9c826abe6503731"
-                                                    },
-                                                    "title": {
-                                                        "type": "string",
-                                                        "example": "algo nuevo"
-                                                    },
-                                                    "price": {
-                                                        "type": "number",
-                                                        "example": 1
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "asdasdas"
-                                                    },
-                                                    "image": {
-                                                        "type": "string",
-                                                        "example": "asdasdas"
-                                                    },
-                                                    "stock": {
-                                                        "type": "number",
-                                                        "example": 1
-                                                    },
-                                                    "category": {
-                                                        "type": "string",
-                                                        "example": "691481bfdea6bb3f3e477828"
-                                                    },
-                                                    "userId": {
-                                                        "type": "string",
-                                                        "example": "69178e87b4c86503179ee056"
-                                                    },
-                                                    "status": {
-                                                        "type": "boolean",
-                                                        "example": true
-                                                    },
-                                                    "__v": {
-                                                        "type": "number",
-                                                        "example": 0
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "error interno del servidor"
-                    }
-                }
-            },
-            "post": {
-                "summary": "crear un producto nuevo",
-                "tags": [
-                    "Products"
-                ],
-                "security": [
-                    {
-                        "AuthToken": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "title": {
-                                        "type": "string",
-                                        "example": "producto de ejemplo"
-                                    },
-                                    "price": {
-                                        "type": "number",
-                                        "example": 9.99
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "description de ejemplo"
-                                    },
-                                    "image": {
-                                        "type": "string",
-                                        "example": "https://example.com/sample-product.jpg"
-                                    },
-                                    "category": {
-                                        "type": "string",
-                                        "example": "691481bfdea6bb3f3e477828"
-                                    },
-                                    "stock": {
-                                        "type": "number",
-                                        "example": 10
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Poducto creado correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensage": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 201
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "_id": {
-                                                    "type": "string",
-                                                    "example": "6919fe67f9c826abe6503731"
-                                                },
-                                                "title": {
-                                                    "type": "string",
-                                                    "example": "algo nuevo"
-                                                },
-                                                "price": {
-                                                    "type": "number",
-                                                    "example": 1
-                                                },
-                                                "description": {
-                                                    "type": "string",
-                                                    "example": "asdasdas"
-                                                },
-                                                "image": {
-                                                    "type": "string",
-                                                    "example": "asdasdas"
-                                                },
-                                                "stock": {
-                                                    "type": "number",
-                                                    "example": 1
-                                                },
-                                                "category": {
-                                                    "type": "string",
-                                                    "example": "691481bfdea6bb3f3e477828"
-                                                },
-                                                "userId": {
-                                                    "type": "string",
-                                                    "example": "69178e87b4c86503179ee056"
-                                                },
-                                                "status": {
-                                                    "type": "boolean",
-                                                    "example": true
-                                                },
-                                                "__v": {
-                                                    "type": "number",
-                                                    "example": 0
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "error interno del servidor"
-                    }
-                }
-            }
-        },
-        "/api/products/{id}": {
-            "get": {
-                "summary": "obtener un producto especifico",
-                "tags": [
-                    "Products"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": "true",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "id del producto a obtener"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "producto Obtenido correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensaje": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 200
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "description": {
-                                                    "type": "string",
-                                                    "example": "descripcion"
-                                                },
-                                                "image": {
-                                                    "type": "string",
-                                                    "example": "https://example.com/sample-product.jpg"
-                                                },
-                                                "stock": {
-                                                    "type": "number",
-                                                    "example": 20
-                                                },
-                                                "status": {
-                                                    "type": "bool",
-                                                    "example": true
-                                                },
-                                                "id": {
-                                                    "type": "string",
-                                                    "example": "68c351714b85af76f955f78d"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "a"
-                                                },
-                                                "price": {
-                                                    "type": "number",
-                                                    "example": 100
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "error: bad request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensaje": {
-                                            "type": "string",
-                                            "example": "Error"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 400
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string",
-                                                "example": "El id no es valido"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "error: intenal server",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "mensaje": {
-                                            "type": "string",
-                                            "example": "Error"
-                                        },
-                                        "code": {
-                                            "type": "number",
-                                            "example": 500
-                                        },
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "summary": "actualizar un producto",
-                "tags": [
-                    "Products"
-                ]
-            },
-            "delete": {
-                "summary": "eliminar un producto",
-                "tags": [
-                    "Products"
-                ]
-            }
-        },
-        "/api/products/populado": {
-            "get": {
-                "summary": "obtener todos los productos populados",
-                "tags": [
-                    "Products Extra"
-                ]
-            }
-        }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Tiendara API",
+    "version": "1.0.0",
+    "description": "description de ejemplo"
+  },
+  "components": {
+    "securitySchemes": {
+      "AuthToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Pega tu token JWT aquí (sin Bearer)"
+      }
     }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3008",
+      "description": "Local"
+    },
+    {
+      "url": "https://backtiendara.onrender.com",
+      "description": "Deploy en Render"
+    }
+  ],
+  "paths": {
+    "/api/user/login": {
+      "post": {
+        "summary": "Login de usuario",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "adminadmin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accesstoken": {
+                          "type": "string",
+                          "example": "JWT_ACCESS_TOKEN_AQUI"
+                        },
+                        "refreshtoken": {
+                          "type": "string",
+                          "example": "JWT_REFRESH_TOKEN_AQUI"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/token": {
+      "post": {
+        "summary": "Renovar tokens de acceso",
+        "tags": ["Auth"],
+        "description": "Genera un nuevo accessToken y refreshToken utilizando el refresh token enviado en el header.",
+        "parameters": [
+          {
+            "name": "x-refresh-token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Refresh token válido para generar nuevos tokens"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tokens generados correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accesstoken": {
+                          "type": "string",
+                          "example": "JWT_ACCESS_TOKEN_AQUI"
+                        },
+                        "refreshtoken": {
+                          "type": "string",
+                          "example": "JWT_REFRESH_TOKEN_AQUI"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Refresh token inválido o expirado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "Error"
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "Refresh token inválido"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    },
+    "/api/user/register": {
+      "post": {
+        "summary": "Registrar un nuevo usuario",
+        "tags": ["User"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password",
+                  "role",
+                  "name",
+                  "lastName",
+                  "birthdate"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "admins@admin.com"
+                  },
+                  "password": { "type": "string", "example": "adminadmin" },
+                  "role": {
+                    "type": "string",
+                    "enum": ["user", "admin"],
+                    "example": "user"
+                  },
+                  "name": { "type": "string", "example": "juean" },
+                  "lastName": { "type": "string", "example": "perez" },
+                  "birthdate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-11-26"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario registrado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 201 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "69273dd9d878048c2e3fd72e"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admins@admin.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "$2b$10$cN0/gODAR3oQQmQsuZa2IuEPmsU0WKkTBHEMycUDX4/NWG.xU7Mk2"
+                        },
+                        "role": { "type": "string", "example": "user" },
+                        "name": { "type": "string", "example": "juean" },
+                        "lastName": { "type": "string", "example": "perez" },
+                        "birthdate": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2025-11-26T00:00:00.000Z"
+                        },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "Error en el email: debe ser un correo válido"
+                    },
+                    "code": { "type": "number", "example": 400 }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El usuario ya existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "El usuario ya existe"
+                    },
+                    "code": { "type": "number", "example": 409 }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "summary": "Obtener todos los productos",
+        "tags": ["Products"],
+        "responses": {
+          "200": {
+            "description": "Lista de productos obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "69265eb854b85788bcf79465"
+                          },
+                          "title": { "type": "string", "example": "asdasd" },
+                          "price": { "type": "number", "example": 1 },
+                          "desciption": {
+                            "type": "string",
+                            "example": "asdasd"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Hola esta es la nueva descripcion"
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/"
+                            }
+                          },
+                          "stock": { "type": "number", "example": 3 },
+                          "category": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "692659cd54b85788bcf7943c"
+                              },
+                              "name": { "type": "string", "example": "asdasda" }
+                            }
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "692647bf382c4e0f6a00b983"
+                          },
+                          "status": { "type": "boolean", "example": true },
+                          "__v": { "type": "number", "example": 0 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Obtener un producto por ID",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del producto a obtener"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Producto obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "69265eb854b85788bcf79465"
+                        },
+                        "title": { "type": "string", "example": "asdasd" },
+                        "price": { "type": "number", "example": 1 },
+                        "desciption": {
+                          "type": "string",
+                          "example": "asdasd"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Hola esta es la nueva descripcion"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                          }
+                        },
+                        "stock": { "type": "number", "example": 3 },
+                        "category": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "692659cd54b85788bcf7943c"
+                            },
+                            "name": { "type": "string", "example": "asdasda" }
+                          }
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "692647bf382c4e0f6a00b983"
+                        },
+                        "status": { "type": "boolean", "example": true },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Producto no encontrado" },
+          "500": { "description": "Error interno del servidor" }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar un producto (delete lógico)",
+        "tags": ["Products"],
+        "security": [{ "AuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del producto a eliminar"
+          }
+        ],
+        "responses": {
+          "204": {},
+          "404": {
+            "description": "Producto no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "El producto no existe"
+                    },
+                    "code": { "type": "number", "example": 404 }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear un nuevo producto",
+        "tags": ["Products"],
+        "security": [{ "AuthToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "price",
+                  "description",
+                  "images",
+                  "stock",
+                  "category"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 200,
+                    "example": "Zapatillas"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 111111
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 500,
+                    "example": "Zapatillas talle 36 - 37 -38"
+                  },
+                  "images": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                    }
+                  },
+                  "stock": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "6926585b54b85788bcf79430"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Producto creado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 201 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "6927388f54b8ad4fecb30ed9"
+                        },
+                        "title": { "type": "string", "example": "Zapatillas" },
+                        "price": { "type": "number", "example": 111111 },
+                        "description": {
+                          "type": "string",
+                          "example": "Zapatillas talle 36 - 37 -38"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                          }
+                        },
+                        "stock": { "type": "number", "example": 1 },
+                        "category": {
+                          "type": "string",
+                          "example": "6926585b54b85788bcf79430"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "692647bf382c4e0f6a00b983"
+                        },
+                        "status": { "type": "boolean", "example": true },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de validación en los campos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "Error en los campos enviados"
+                    },
+                    "code": { "type": "number", "example": 400 },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "error en el precio: debe ser numérico"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      },
+      "patch": {
+        "summary": "Actualizar un producto existente",
+        "tags": ["Products"],
+        "security": [{ "AuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del producto a actualizar"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 200,
+                    "example": "Zapatillas"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 111111
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 500,
+                    "example": "Zapatillas talle 36 - 37 -38"
+                  },
+                  "images": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                    }
+                  },
+                  "stock": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "6926585b54b85788bcf79430"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Producto actualizado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "69266abb54b85788bcf794fe"
+                        },
+                        "title": { "type": "string", "example": "asdasd" },
+                        "price": { "type": "number", "example": 4 },
+                        "description": {
+                          "type": "string",
+                          "example": "Zapatillas talle 36 - 37 -38"
+                        },
+                        "desciption": {
+                          "type": "string",
+                          "example": "asdasda"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                          }
+                        },
+                        "stock": { "type": "number", "example": 2 },
+                        "category": {
+                          "type": "string",
+                          "example": "6926585b54b85788bcf79430"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "692647bf382c4e0f6a00b983"
+                        },
+                        "status": { "type": "boolean", "example": true },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de validación en los campos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "Error en los campos enviados"
+                    },
+                    "code": { "type": "number", "example": 400 },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "error en el precio: debe ser numérico"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producto no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "El producto no existe"
+                    },
+                    "code": { "type": "number", "example": 404 }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      },
+      "put": {
+        "summary": "Actualizar un producto existente",
+        "tags": ["Products"],
+        "security": [{ "AuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del producto a actualizar"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "price",
+                  "description",
+                  "images",
+                  "stock",
+                  "category"
+                ],
+                "properties": {
+                  "title": { "type": "string", "example": "Zapatillas" },
+                  "price": { "type": "number", "example": 111111 },
+                  "description": {
+                    "type": "string",
+                    "example": "Zapatillas talle 36 - 37 -38"
+                  },
+                  "images": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                    }
+                  },
+                  "stock": { "type": "number", "example": 1 },
+                  "category": {
+                    "type": "string",
+                    "example": "6926585b54b85788bcf79430"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Producto actualizado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "69266abb54b85788bcf794fe"
+                        },
+                        "title": { "type": "string", "example": "Zapatillas" },
+                        "price": { "type": "number", "example": 111111 },
+                        "description": {
+                          "type": "string",
+                          "example": "Zapatillas talle 36 - 37 -38"
+                        },
+                        "images": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "stock": { "type": "number", "example": 1 },
+                        "category": {
+                          "type": "string",
+                          "example": "6926585b54b85788bcf79430"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "692647bf382c4e0f6a00b983"
+                        },
+                        "status": { "type": "boolean", "example": true },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "Error en los campos enviados"
+                    },
+                    "code": { "type": "number", "example": 400 },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "error en el precio: debe ser numérico"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producto no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "El producto no existe"
+                    },
+                    "code": { "type": "number", "example": 404 }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+    "/api/products/category/{name}": {
+      "get": {
+        "summary": "Obtener productos por categoría",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Nombre de la categoría para filtrar productos"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Productos obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "69265eb854b85788bcf79465"
+                          },
+                          "title": { "type": "string", "example": "asdasd" },
+                          "price": { "type": "number", "example": 1 },
+                          "desciption": {
+                            "type": "string",
+                            "example": "asdasd"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Hola esta es la nueva descripcion"
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                            }
+                          },
+                          "stock": { "type": "number", "example": 3 },
+                          "category": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "692659cd54b85788bcf7943c"
+                              },
+                              "name": { "type": "string", "example": "asdasda" }
+                            }
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "692647bf382c4e0f6a00b983"
+                          },
+                          "status": { "type": "boolean", "example": true },
+                          "__v": { "type": "number", "example": 0 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se encontraron productos para la categoría"
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+    "/api/products/filter": {
+      "get": {
+        "summary": "Filtrar y paginar productos",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "default": "" },
+            "description": "Texto a buscar en título o descripción del producto. Si está vacío, se devuelven todos los productos"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "default": "" },
+            "description": "Criterio de ordenamiento, ej: 'price_asc', 'price_desc'. Si está vacío, no se aplica orden"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 1 },
+            "description": "Número de página. Por defecto 1 si no se envía"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 6 },
+            "description": "Cantidad de productos por página. Por defecto 6 si no se envía"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Productos filtrados y paginados correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "6926649054b85788bcf794c7"
+                          },
+                          "title": { "type": "string", "example": "asfasf" },
+                          "price": { "type": "number", "example": 16222 },
+                          "desciption": {
+                            "type": "string",
+                            "example": "asfasfasf"
+                          },
+                          "description": { "type": "string", "example": "" },
+                          "images": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                            }
+                          },
+                          "stock": { "type": "number", "example": 207 },
+                          "category": {
+                            "type": "string",
+                            "example": "69265a5f54b85788bcf79440"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "692647bf382c4e0f6a00b983"
+                          },
+                          "status": { "type": "boolean", "example": true },
+                          "__v": { "type": "number", "example": 0 }
+                        }
+                      }
+                    },
+                    "total": { "type": "number", "example": 11 },
+                    "totalPages": { "type": "number", "example": 2 },
+                    "page": { "type": "number", "example": 1 },
+                    "limit": { "type": "number", "example": 6 }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+    "/api/category": {
+      "get": {
+        "summary": "Obtener todas las categorías",
+        "tags": ["Category"],
+        "responses": {
+          "200": {
+            "description": "Categorías obtenidas correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "69273cbf16f3cd84874ea8c0"
+                          },
+                          "name": { "type": "string", "example": "asdasf" },
+                          "description": {
+                            "type": "string",
+                            "example": "asfasfas"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                          },
+                          "status": { "type": "boolean", "example": true },
+                          "__v": { "type": "number", "example": 0 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear una nueva categoría",
+        "tags": ["Category"],
+        "security": [{ "AuthToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "description", "image"],
+                "properties": {
+                  "name": { "type": "string", "example": "asdasf" },
+                  "description": { "type": "string", "example": "asfasfas" },
+                  "image": {
+                    "type": "string",
+                    "example": "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                  },
+                  "status": { "type": "boolean", "example": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoría creada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 201 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "69273cbf16f3cd84874ea8c0"
+                        },
+                        "name": { "type": "string", "example": "asdasf" },
+                        "description": {
+                          "type": "string",
+                          "example": "asfasfas"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                        },
+                        "status": { "type": "boolean", "example": true },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Error de validación" },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+    "/api/category/{id}": {
+      "put": {
+        "summary": "Actualizar una categoría existente",
+        "tags": ["Category"],
+        "security": [{ "AuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "description", "image"],
+                "properties": {
+                  "name": { "type": "string", "example": "asdasf" },
+                  "description": { "type": "string", "example": "asfasfas" },
+                  "image": {
+                    "type": "string",
+                    "example": "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                  },
+                  "status": { "type": "boolean", "example": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Categoría actualizada correctamente" },
+          "404": { "description": "Categoría no encontrada" }
+        }
+      },
+      "patch": {
+        "summary": "Actualizar parcialmente una categoría",
+        "tags": ["Category"],
+        "security": [{ "AuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "asdasf" },
+                  "description": { "type": "string", "example": "asfasfas" },
+                  "image": {
+                    "type": "string",
+                    "example": "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                  },
+                  "status": { "type": "boolean", "example": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Categoría actualizada correctamente" },
+          "404": { "description": "Categoría no encontrada" }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar una categoría",
+        "tags": ["Category"],
+        "security": [{ "AuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Categoría eliminada correctamente, no hay contenido"
+          },
+          "404": {
+            "description": "Categoría no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": {
+                      "type": "string",
+                      "example": "La categoría no existe"
+                    },
+                    "code": { "type": "number", "example": 404 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category/{name}": {
+      "get": {
+        "summary": "Obtener una categoría por nombre",
+        "tags": ["Category"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoría obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensage": { "type": "string", "example": "Success" },
+                    "code": { "type": "number", "example": 200 },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "69273cbf16f3cd84874ea8c0"
+                        },
+                        "name": { "type": "string", "example": "asdasf" },
+                        "description": {
+                          "type": "string",
+                          "example": "asfasfas"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//"
+                        },
+                        "status": { "type": "boolean", "example": true },
+                        "__v": { "type": "number", "example": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Categoría no encontrada" }
+        }
+      }
+    }
+  }
 }
