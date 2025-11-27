@@ -91,38 +91,9 @@ Incluye:
 ---
 
 ## Estructura del Proyecto
-```
-backend/
-│
-├─ src/
-│  ├─ controllers/
-│  │   ├─ categoryController.js
-│  │   ├─ productController.js
-│  │   └─ userController.js
-│  │
-│  ├─ routes/
-│  │   ├─ categoryRouter.js
-│  │   ├─ productsRouter.js
-│  │   └─ userRouter.js
-│  │
-│  ├─ middlewares/
-│  │   ├─ authMiddleware.js
-│  │   └─ validationMiddleware.js
-│  │
-│  ├─ models/
-│  │   ├─ Category.js
-│  │   ├─ Product.js
-│  │   └─ User.js
-│  │
-│  ├─ utils/
-│  │   └─ logger.js
-│  │
-│  └─ index.js
-│
-├─ package.json
-├─ .env
-└─ README.md
-```
+
+![](/public/estructura_001.png)
+![](/public/estructura_002.png)
 
 ---
 
@@ -157,13 +128,21 @@ JWT_REFRESH_EXPIRES_IN=7d
 ```bash
 npm run dev
 ```
+o si se creo el .env.prod
 
+```bash
+nom run prod
+```
 El servidor quedará corriendo en `http://localhost:3008`.
 
 ---
 
 ## Imágenes de la aplicación
-*(Aquí se pueden agregar capturas de Swagger UI, Postman o la SPA de React)*
+
+![](/public/image_001.png)
+![](/public/image_002.png)
+![](/public/image_003.png)
+![](/public/image_004.png)
 
 ---
 
