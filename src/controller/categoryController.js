@@ -5,9 +5,8 @@ const cs = new CategoryService();
 
 export const getOneCategoryByName = async (req, res, next) => {
   try {
-    const { name } = req.params;
-
-    const category = await cs.getOneByName(name);
+    const categoryName = decodeURIComponent(req.params.name);
+    const category = await cs.getOneByName(categoryName);
     success(res, category);
   } catch (error) {
     next(error);
