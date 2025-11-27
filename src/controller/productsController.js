@@ -49,7 +49,12 @@ export const getAllProductsFiltradoandPaginado = async (req, res, next) => {
 export const getAllProductsCategory= async (req, res,next) => {
   try {
     const {category} = req.params
-    const productos = await ps.getAllProductsCategory(category);
+    const { search = "", sort = "" } = req.query;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const offset = (page - 1) * limit;
+    
+    const productos = await ps.getAllProductsCategory(category, search, sort, offset, limit);
     success(res, productos)
   } catch (error) {
     next(error)

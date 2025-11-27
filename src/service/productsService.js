@@ -19,17 +19,29 @@ export class productsService {
   }
 
   async getAllProductsFiltradoandPaginado(search, sort, offset, limit) {
-    const filtro = search ? { title: { $regex: search, $options: "i" }, status: true } : { status: true };
+    const filtro = search
+      ? { title: { $regex: search, $options: "i" }, status: true }
+      : { status: true };
 
+    return await this.productFilter(sort, filtro, offset, limit);
+  }
+
+  async getOrden(sort) {
     let orden = {};
     if (sort === "price-asc") orden.price = 1;
     if (sort === "price-desc") orden.price = -1;
     if (sort === "name-asc") orden.title = 1;
     if (sort === "name-desc") orden.title = -1;
+    return orden;
+  }
+
+  async productFilter(sort, filtro, offset, limit) {
+    const orden = await this.getOrden(sort);
 
     const total = await Product.countDocuments(filtro);
 
     const data = await Product.find(filtro)
+      .populate("category", "name")
       .sort(orden)
       .skip(offset)
       .limit(limit);
@@ -43,23 +55,20 @@ export class productsService {
     };
   }
 
-  async getAllProductsCategory(category) {
+  async getAllProductsCategory(category, search, sort, offset, limit) {
     const categorydb = await Category.findOne({ name: category, status: true });
-    return await Product.find({
-      category: categorydb?._id,
-      status: true,
-    }).populate("category", "name");
+    const filtro = search
+      ? {
+          title: { $regex: search, $options: "i" },
+          status: true,
+          category: categorydb._id,
+        }
+      : { status: true, category: categorydb._id };
+
+    return await this.productFilter(sort, filtro, offset, limit);
   }
 
-  async create(
-    title,
-    price,
-    description,
-    images,
-    category,
-    stock,
-    userId
-  ) {
+  async create(title, price, description, images, category, stock, userId) {
     const objectCaregory = await cs.getOne(category);
     if (!objectCaregory) {
       throw new ApiError("la categoria no existe", 404);
@@ -77,8 +86,7 @@ export class productsService {
   }
 
   async update(id, productoData) {
-    const { title, price, description, images, category, stock } =
-      productoData;
+    const { title, price, description, images, category, stock } = productoData;
 
     const producto = {
       title,
@@ -100,8 +108,7 @@ export class productsService {
     if (!productoBase) {
       throw new ApiError("El producto no existe", 404);
     }
-    const { title, price, description, images, category, stock } =
-      productoData;
+    const { title, price, description, images, category, stock } = productoData;
     const changedPrice = productoBase.price != price && price;
     const producto = {
       title: productoBase.title != title && title ? title : productoBase.title,
@@ -125,7 +132,6 @@ export class productsService {
       }
     );
     if (productoActualizado && changedPrice) {
-
       let detail = await Detail.findOne({ product: id });
       if (detail) {
         detail.price = price;
@@ -136,11 +142,12 @@ export class productsService {
   }
 
   async deleteLogicoProduct(id) {
-      const product = await Product.findOneAndUpdate({_id:id, status: true}, {
+    const product = await Product.findOneAndUpdate(
+      { _id: id, status: true },
+      {
         status: false,
-    });
-    if(!product)
-      throw new ApiError("El producto no existe", 404); 
-
+      }
+    );
+    if (!product) throw new ApiError("El producto no existe", 404);
   }
 }
