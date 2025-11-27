@@ -38,3 +38,31 @@ export const renovarTokenController = async (req, res, next) => {
   } catch (error) {
     next(error)
 }};
+
+export const getUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const userModel = await us.getUser(user.id);
+    success(res, userModel)
+  } catch (error) {
+    next(error)
+}};
+
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const userModel = await us.updateUser(user.id, req.body);
+    success(res, userModel)
+  } catch (error) {
+    next(error)
+}};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+    await us.deleteUser(user.id);
+    success(res, {}, 204)
+  } catch (error) {
+    next(error)
+}};

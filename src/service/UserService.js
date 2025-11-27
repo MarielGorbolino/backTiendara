@@ -64,4 +64,40 @@ async register(body) {
     });
     return accesstoken
   }
+
+  async getUser(id) {
+    const user = await Usuario.findById({ _id: id });
+    if (!user) {
+      throw new ApiError("User not found", 404);
+    }
+    return user;
+  }
+
+  async updateUser(id, body) {
+    const { email, password, role, name, lastName, birthdate } = body;
+    const user = await Usuario.findById({ _id: id });
+    if (!user) {
+      throw new ApiError("User not found", 404);
+    }
+    user.email = email || user.email;
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
+    user.role = role || user.role;
+    user.name = name || user.name;
+    user.lastName = lastName || user.lastName;
+    user.birthdate = birthdate ? new Date(birthdate) : user.birthdate;
+
+    await user.save();
+    return await Usuario.findById(id).select("-password -__v");
+  }
+
+  async deleteUser(id) {
+    const user = await Usuario.findByIdAndDelete({ _id: id });
+    if (!user) {
+      throw new ApiError("User not found", 404);
+    } 
+    return user;
+  }
+
 }

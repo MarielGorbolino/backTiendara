@@ -9,7 +9,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export class CartService {
   constructor() {}
   async getOne(idUsuario) {
-    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate({
+    const cart = await Cart.findOne({
+      userId: idUsuario,
+      status: "Pendiente",
+    }).populate({
       path: "detalle",
       populate: "product",
     });
@@ -46,7 +49,7 @@ export class CartService {
     const product = await Product.findById({ _id: productId });
     if (!product) throw new ApiError("producto no encontrado", 404);
 
-    let cart = await Cart.findOne({ userId: idUsuario,  status: "Pendiente" });
+    let cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" });
     if (!cart) {
       cart = await Cart.create({ userId: idUsuario });
     }
@@ -91,9 +94,6 @@ export class CartService {
       throw new Error("producto no encontrado en el carrito");
     }
 
-    const product = await Product.findById(idProducto);
-    if (!product) throw new Error("producto no encontrado");
-
     if (detail.quantity <= 1) {
       await Detail.findByIdAndDelete(detail._id);
 
@@ -115,7 +115,10 @@ export class CartService {
   }
 
   async clearCart(idUsuario) {
-    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
+    const cart = await Cart.findOne({
+      userId: idUsuario,
+      status: "Pendiente",
+    }).populate("detalle");
     if (!cart) throw new Error("carrito no encontrado");
 
     await Detail.deleteMany({ _id: { $in: cart.detalle.map((d) => d._id) } });
@@ -126,9 +129,11 @@ export class CartService {
     return await this.getOne(idUsuario);
   }
 
-
   async payCart(idUsuario) {
-    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
+    const cart = await Cart.findOne({
+      userId: idUsuario,
+      status: "Pendiente",
+    }).populate("detalle");
     if (!cart) throw new Error("carrito no encontrado");
 
     if (cart.detalle && cart.detalle.length > 0) {
@@ -147,38 +152,13 @@ export class CartService {
     return await this.getOne(idUsuario);
   }
 
-
-    async clearCart(idUsuario) {
-    const cart = await Cart.findOne({ userId: idUsuario, status: "Pendiente" }).populate("detalle");
-    if (!cart) throw new Error("carrito no encontrado");
-
-    if (cart.detalle && cart.detalle.length > 0) {
-      for (const detail of cart.detalle) {
-        const product = await Product.findById(detail.product);
-
-        if (product) {
-          product.stock -= detail.quantity;
-          await product.save();
-        }
-      }
-    }
-
-    await Detail.deleteMany({ _id: { $in: cart.detalle.map((d) => d._id) } });
-
-    cart.status = "Pagado";
-    await cart.save();
-
-    return await this.getOne(idUsuario);
-  }
-
-
-    async paymentIntents(amount, currency, userId) {
-      const intentoPago = await stripe.paymentIntents.create({
-        amount,
-        currency,
-        customer: userId,
-        automatic_payment_methods: { enabled: true },
-      });
-      return intentoPago.client_secret;
+  async paymentIntents(amount, currency, userId) {
+    const intentoPago = await stripe.paymentIntents.create({
+      amount,
+      currency,
+      customer: userId,
+      automatic_payment_methods: { enabled: true },
+    });
+    return intentoPago.client_secret;
   }
 }
