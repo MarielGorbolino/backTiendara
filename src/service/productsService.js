@@ -57,6 +57,9 @@ export class productsService {
 
   async getAllProductsCategory(category, search, sort, offset, limit) {
     const categorydb = await Category.findOne({ name: category, status: true });
+    if(categorydb === null){
+      throw new ApiError("La categoria no existe", 404);
+    }
     const filtro = search
       ? {
           title: { $regex: search, $options: "i" },
