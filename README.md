@@ -21,7 +21,6 @@ Incluye:
 
 ### 2. Módulo ABMC (Alta, Baja, Modificación, Consulta)
 
-export default productsRouter
 #### Productos (`/api/products`)
 - **GET** `/` → Listar todos los productos.
 - **GET** `/filter` → Listar productos con filtros, búsqueda y paginación.
@@ -53,6 +52,9 @@ export default productsRouter
 - **POST** `/register` → Crea un usuario.
 - **POST** `/login` → Valida que el usuario exista y autoriza a iniciar sesion.
 - **POST** `/token` → Renueva el token.
+- **GET** `/` → Obtiene los datos del usuario.
+- **PUT** `/` → Actualización de datos del usuario.
+- **DELETE** `/` → Elimina su propio usuario.
 
 ### 3. Validación
 - Todas las rutas de creación y actualización de productos y categorías validan los campos requeridos usando `express-validator`.
