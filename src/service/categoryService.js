@@ -10,16 +10,20 @@ export class CategoryService {
 
   async getAll(offset, limit) {
     const total = await Category.countDocuments({ status: true });
-    const data = await Category.find({ status: true })
-      .skip(offset)
-      .limit(limit);
+    let data = [];
+
+    if (offset !== undefined && limit !== undefined) {
+      data = await Category.find({ status: true }).skip(offset).limit(limit);
+    } else {
+      data = await Category.find({ status: true });
+    }
 
     return {
       data,
       total,
-      totalPages: Math.ceil(total / limit),
-      page: offset / limit + 1,
-      limit,
+      totalPages: limit ? Math.ceil(total / limit) : 1,
+      page: offset ? offset / limit + 1 : 1,
+      limit: limit ?? total,
     };
   }
 

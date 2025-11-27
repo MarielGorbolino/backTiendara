@@ -16,9 +16,10 @@ export const getOneCategoryByName = async (req, res, next) => {
 
 export const getAllCategory = async (req, res, next) => {
   try {
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 6;
-    const offset = (page - 1) * limit;
+    const limit = !isNaN(req.query.limit) ? Number(req.query.limit) : undefined;
+    const offset = !isNaN(req.query.page)
+      ? (Number(req.query.page) - 1) * limit
+      : undefined;
     const categories = await cs.getAll(offset, limit);
     success(res, categories);
   } catch (error) {
