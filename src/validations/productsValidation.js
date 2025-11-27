@@ -3,9 +3,9 @@ import { body } from "express-validator";
 export const producto = [
   body("title")
     .isString()
-    .isLength({ min: 2, max: 200 })
+    .isLength({ min: 2, max: 100 })
     .withMessage(
-      "error en el titulo: no cumple con que sea una cadena y su longitud tiene que ser entre 2 y 200"
+      "error en el titulo: no cumple con que sea una cadena y su longitud tiene que ser entre 2 y 100"
     ),
 
   body("price")
@@ -34,9 +34,9 @@ export const patchProducto = [
   body("title")
     .optional()
     .isString()
-    .isLength({ min: 2, max: 200 })
+    .isLength({ min: 2, max: 100 })
     .withMessage(
-      "error en el titulo: no cumple con que sea una cadena y su longitud tiene que ser entre 2 y 200"
+      "error en el titulo: no cumple con que sea una cadena y su longitud tiene que ser entre 2 y 100"
     ),
 
   body("price")

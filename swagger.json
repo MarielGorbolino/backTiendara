@@ -659,7 +659,7 @@
                   "title": {
                     "type": "string",
                     "minLength": 2,
-                    "maxLength": 200,
+                    "maxLength": 100,
                     "example": "Zapatillas"
                   },
                   "price": {
@@ -791,7 +791,7 @@
                   "title": {
                     "type": "string",
                     "minLength": 2,
-                    "maxLength": 200,
+                    "maxLength": 100,
                     "example": "Zapatillas"
                   },
                   "price": {
